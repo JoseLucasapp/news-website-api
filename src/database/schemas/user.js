@@ -1,5 +1,5 @@
-import crypto from 'crypto'
-import mongoose from 'mongoose';
+const crypto = require('crypto')
+const mongoose = require('mongoose')
 
 const users = new mongoose.Schema({
     email: {

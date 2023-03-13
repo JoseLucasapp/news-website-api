@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 mongoose.Promise = global.Promise
 
-module.exports = mongoose.connect(process.env, { useNewUrlParser: true, useUnifiedTopology: true })
+module.exports = mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })

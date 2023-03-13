@@ -1,8 +1,8 @@
-import { registry, login } from "../controllers/user"
-import auth from '../middlewares/authMiddleware'
+const { registryController, loginController, profileController } = require("../controllers/user")
+const auth = require('../middlewares/authMiddleware')
 
 module.exports = (router) => {
-    router.post('/registry', registry)
-    router.get('/login', login)
-    router.get('/profile', auth, login)
+    router.post('/registry', registryController)
+    router.get('/login', loginController)
+    router.get('/profile', auth, profileController)
 }

@@ -1,17 +1,35 @@
-const registry = (req, res) => {
+const { login, profile, newUser } = require('../models/user')
+
+const registryController = async (req, res) => {
     try {
-        res.status(200).json('ok')
+        const data = await newUser(req.body)
+        res.status(200).json(data)
     } catch (error) {
         res.status(500).json(error)
     }
 }
 
-const login = (req, res) => {
+const loginController = async (req, res) => {
     try {
-        res.status(200).json('ok')
+        const [, hash] = req.headers.authorization.split(' ');
+        const [email, password] = Buffer.from(hash, 'base64').toString().split(':');
+        const data = await login(email, password)
+        if (data === '404') {
+            return res.status(404).json('Not found')
+        }
+        res.status(200).json(data)
     } catch (error) {
         res.status(500).json(error)
     }
 }
 
-module.exports = { registry, login }
+const profileController = async (req, res) => {
+    try {
+        const data = await profile(req.auth)
+        res.status(200).json(data)
+    } catch (error) {
+        res.status(500).json(error)
+    }
+}
+
+module.exports = { registryController, loginController, profileController }
