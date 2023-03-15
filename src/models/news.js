@@ -1,3 +1,4 @@
+const { default: mongoose } = require('mongoose')
 const newsDb = require('../database/schemas/news')
 
 const newNews = async (data, uId) => {
@@ -15,8 +16,8 @@ const getAllNews = async (queryData) => {
         limit: parseInt(queryData.limit) || 10,
     }
 
-    if (queryData.userId) Object.assign(filter, { userId: { $regex: queryData.userId, $options: 'i' } })
-    if (queryData.id) Object.assign(filter, { _id: { $regex: queryData.id, $options: 'i' } })
+    if (queryData.userId) Object.assign(filter, { userId: queryData.userId })
+    if (queryData._id) Object.assign(filter, { _id: queryData._id })
     if (queryData.title) Object.assign(filter, { title: { $regex: queryData.title, $options: 'i' } })
 
     const totalEntries = await newsDb.find(filter).count()
