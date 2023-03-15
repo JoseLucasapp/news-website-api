@@ -20,17 +20,18 @@ const getNewsController = async (req, res) => {
 
 const updateNewsController = async (req, res) => {
     try {
-        const result = await updateNews(req.auth._id, req.params.id, req.body)
-        res.status(200).json({ msg: result })
+        await updateNews(req.auth._id, req.params.id, req.body)
+        res.status(200).json({ msg: 'Updated' })
     } catch (error) {
+        throw error
         res.status(500).json(error)
     }
 }
 
 const deleteNewsController = async (req, res) => {
     try {
-        const result = await deleteNews(req.auth._id, req.params.id)
-        res.status(200).json({ msg: result })
+        await deleteNews(req.auth._id, req.params.id)
+        res.status(200).json({ msg: "Deleted" })
     } catch (error) {
         res.status(500).json(error)
     }

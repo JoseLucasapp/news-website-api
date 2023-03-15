@@ -1,4 +1,3 @@
-const { default: mongoose } = require('mongoose')
 const newsDb = require('../database/schemas/news')
 
 const newNews = async (data, uId) => {
@@ -39,24 +38,8 @@ const getAllNews = async (queryData) => {
     return data
 }
 
-const updateNews = async (uId, id, data) => {
-    await newsDb.updateOne({ userId: uId, _id: id }, { $set: data }).exec((err) => {
-        if (err) {
-            return err
-        }
-    })
+const updateNews = async (uId, id, data) => await newsDb.updateOne({ _id: id, userId: uId }, { $set: data }, { upsert: true, new: true })
 
-    return "Updated"
-}
-
-const deleteNews = async (uId, id) => {
-    await newsDb.deleteOne({ _id: id, userId: uId }).exec((err) => {
-        if (err) {
-            return err
-        }
-    })
-
-    return "Deleted"
-}
+const deleteNews = async (uId, id) => await newsDb.deleteOne({ _id: id, userId: uId })
 
 module.exports = { newNews, getAllNews, updateNews, deleteNews }
